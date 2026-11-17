@@ -2,6 +2,8 @@
 
 ![Agent rules](docs/banner.jpg)
 
+> **Test version.** This app is live, but I have not checked it myself yet. If you want to use it, keep that in mind.
+
 My house rules for AI coding agents: small structure, plain style, data stays on the device, one author. One file you drop into a repository, and a version you can paste into a chat.
 
 **Copy page:** open `index.html` (or the GitHub Pages link of this repo), pick a version, press Copy.
