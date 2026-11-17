@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agent rules: house rules for AI coding agents</title>
+<meta name="description" content="One file of house rules for AI coding agents: structure, style, privacy, one author. Copy it into your repository or into a chat.">
+<link rel="icon" href="logo.svg"><link rel="stylesheet" href="vendor/fonts/fonts.css">
+<style>
+:root{--bg:#f4f3ef;--ink:#15171B;--mute:#5d616a;--acc:#7A4DD8;--line:#d9d7d0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Archivo",system-ui,sans-serif}
+main{max-width:860px;margin:0 auto;padding:28px 18px 60px}
+h1{font:800 clamp(34px,8vw,60px)/1 "Archivo";font-stretch:75%;margin:0 0 10px}
+.sub{color:var(--mute);max-width:58ch;margin:0 0 22px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.tabs button{font:700 15px "Archivo";padding:10px 16px;min-height:44px;border:2px solid var(--ink);border-radius:10px;background:#fff;color:var(--ink);cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--acc);border-color:var(--acc);color:#fff}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.hint{font-size:14px;color:var(--mute);margin:0 0 10px}
+pre{margin:0;background:#15171B;color:#e8e9ec;padding:16px;border-radius:12px;overflow:auto;max-height:60vh;font:13px/1.55 "IBM Plex Mono",monospace;white-space:pre-wrap}
+.act{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.act button{font:700 15px "Archivo";padding:12px 18px;min-height:46px;border-radius:10px;border:2px solid var(--ink);background:var(--acc);color:#fff;cursor:pointer}
+.act button.o{background:#fff;color:var(--ink)}
+#msg{font-size:14px;min-height:1.4em;color:var(--acc);font-weight:600}
+footer{margin-top:30px;font-size:14px;color:var(--mute)}a{color:inherit}
+</style></head><body><main>
+<h1>Agent rules</h1>
+<p class="sub">My house rules for AI coding agents: small structure, plain style, data stays on the device, one author. Copy them into a repository or into a chat and the work comes back cleaner.</p>
+<div class="tabs" role="tablist" aria-label="Version">
+<button role="tab" id="t0" aria-selected="true" data-f="AGENTS.md">For a repository (AGENTS.md)</button>
+<button role="tab" id="t1" aria-selected="false" data-f="chat-instructions.md">For a chat</button></div>
+<p class="hint" id="hint"></p>
+<pre id="txt" tabindex="0" aria-live="polite">Loading…</pre>
+<div class="act"><button id="copy" type="button">Copy</button><button id="dl" type="button" class="o">Download file</button></div>
+<p id="msg" role="status"></p>
+<footer>MIT, by <a href="https://github.com/davydmedvedchuk">Davyd Medvedchuk</a>. Everything runs in your browser; this page sends nothing anywhere. <a href="https://github.com/davydmedvedchuk/agent-rules">Source</a></footer>
+</main>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)},cache={},cur='AGENTS.md';
+  var H={'AGENTS.md':'Save as AGENTS.md in the root of your repository. For Claude Code also add CLAUDE.md with one line: @AGENTS.md','chat-instructions.md':'Paste into the custom instructions of a chat app or into the instructions of a project.'};
+  function show(f){cur=f;$('t0').setAttribute('aria-selected',f==='AGENTS.md');$('t1').setAttribute('aria-selected',f!=='AGENTS.md');$('hint').textContent=H[f];
+    if(cache[f]!=null){$('txt').textContent=cache[f];return}
+    fetch(f).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(t){cache[f]=t;if(cur===f)$('txt').textContent=t},function(){$('txt').textContent='Could not load '+f+'.'})}
+  $('t0').onclick=function(){show('AGENTS.md')};$('t1').onclick=function(){show('chat-instructions.md')};
+  $('copy').onclick=function(){var t=cache[cur];if(t==null)return;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){$('msg').textContent='Copied.'},function(){var r=document.createRange();r.selectNodeContents($('txt'));getSelection().removeAllRanges();getSelection().addRange(r);$('msg').textContent='Selected. Press Ctrl+C (or hold and Copy).'})};
+  $('dl').onclick=function(){var t=cache[cur];if(t==null)return;var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/markdown'}));a.download=cur;a.click()};
+  show('AGENTS.md');
+})();
+</script></body></html>
